@@ -4,16 +4,23 @@
     {
         public bool CanPlace(Order order)
         {
-            var userService = new UserService();
-            if (userService.IsValidUser)//Can the current user save an order
+            UserService userService = GetUserService();
+            if (userService.IsValidUser // Can the current user save an order
+                && order.Amount >= 0)
             {
                 //save order
                 return true;
             }
-            else {
+            else
+            {
                 //dont add send an exception and log it
                 return false;
             }
+        }
+
+        protected virtual UserService GetUserService()
+        {
+            return new UserService();
         }
     }
 }
